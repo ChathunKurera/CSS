@@ -648,14 +648,18 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     allowNested: true,
     tokenHooks: {
       "/": function(stream, state) {
-        if (stream.eat("/")) {
+      	switch(stream){
+        case stream.eat("/"):
           stream.skipToEnd();
           return ["comment", "comment"];
-        } else if (stream.eat("*")) {
+          break;
+        case stream.eat("*"):
           state.tokenize = tokenCComment;
           return tokenCComment(stream, state);
-        } else {
+          break;
+        default:
           return ["operator", "operator"];
+          break;
         }
       },
       ":": function(stream) {
